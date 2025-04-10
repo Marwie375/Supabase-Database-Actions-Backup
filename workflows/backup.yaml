@@ -1,0 +1,88 @@
+name: supabase-backup
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *" # Runs every day at midnight
+
+env:
+  BACKUP_ENABLED: true
+
+jobs:
+  run_db_backup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      BACKUP_ENABLED: ${{ vars.BACKUP_ENABLED }}
+    
+    steps:
+      - name: Check if backups are enabled
+        run: |
+          if [ "$BACKUP_ENABLED" != "true" ]; then
+            echo "::warning::Backups are disabled. Exiting workflow."
+            exit 0
+
+      - name: Checkout repository
+        if: env.BACKUP_ENABLED == 'true'
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0  # Fetch all history for proper Git operations
+
+      - name: Generate timestamp
+        id: timestamp
+        run: echo "time=$(date +'%Y-%m-%d_%H-%M-%S')" >> $GITHUB_OUTPUT
+
+      - name: Setup Supabase CLI
+        if: env.BACKUP_ENABLED == 'true'
+        uses: supabase/setup-cli@v2.21.1
+        with:
+          version: latest
+
+      - name: Create backup directory
+        if: env.BACKUP_ENABLED == 'true'
+        run: mkdir -p prisma/backups/${{ steps.timestamp.outputs.time }}
+
+      - name: Backup database
+        if: env.BACKUP_ENABLED == 'true'
+        run: |
+          # Backup roles
+          supabase db dump --db-url "$SUPABASE_DB_URL" \
+            -f prisma/backups/${{ steps.timestamp.outputs.time }}/roles.sql --role-only
+
+          # Backup schema
+          supabase db dump --db-url "$SUPABASE_DB_URL" \
+            -f prisma/backups/${{ steps.timestamp.outputs.time }}/schema.sql
+
+          # Backup data
+          supabase db dump --db-url "$SUPABASE_DB_URL" \
+            -f prisma/backups/${{ steps.timestamp.outputs.time }}/data.sql --data-only --use-copy
+
+      - name: Compress backups
+        if: env.BACKUP_ENABLED == 'true'
+        run: |
+          cd prisma/backups
+          tar -czf ${{ steps.timestamp.outputs.time }}.tar.gz ${{ steps.timestamp.outputs.time }}
+          rm -rf ${{ steps.timestamp.outputs.time }}
+
+      - name: Cleanup old backups
+        if: env.BACKUP_ENABLED == 'true'
+        run: |
+          cd prisma/backups
+          ls -t *.tar.gz | tail -n +6 | xargs -r rm
+          
+      - name: Commit backups
+        if: env.BACKUP_ENABLED == 'true'
+        uses: stefanzweifel/git-auto-commit-action@v5.1
+        with:
+          commit_message: "Database Backup - ${{ steps.timestamp.outputs.time }}"
+          file_pattern: 'prisma/backups/*.tar.gz'
+          commit_options: '--no-verify'
+          push_options: '--force'
+          status_options: '--untracked-files=no'
+          add_options: '-f'
