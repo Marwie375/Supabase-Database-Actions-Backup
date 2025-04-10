@@ -2,11 +2,11 @@
 
 Forked from: https://github.com/sesto-dev/supabase-database-backup
 
-Please see the original ^ repo for intructions and features  
+Please see the original ^ repo  and the video for instructions and features.  
 Video Guide: https://www.youtube.com/watch?v=TY68pfWps64
 
 ## Connecting to Supabase
-GitHub actions  currently use IPv4, Supabase direct connections are IPv6. It's recommanded you pay the add-on fee for a direct Supabase connection for IPv4 support. Otherwise use the shared Transaction Spooler for IPv4 (not the Sessions pooler).
+GitHub actions use IPv4, Supabase direct connections are IPv6. It's recommended you pay the add-on fee for a direct Supabase connection for IPv4 support. Otherwise use the shared Transaction Spooler for IPv4 (not the Sessions pooler).
 
 ## Features
 - Automatic Daily Backups: Scheduled backups run every day at midnight.
@@ -17,7 +17,7 @@ GitHub actions  currently use IPv4, Supabase direct connections are IPv6. It's r
 
 
   
-> The main reason for the fork was to update the 3 dependancies below, but then I decided to add some features, namely to only keep the last 5 backups, and compress the backups to **save on storage space**. See improvements below.
+> The main reason for the fork was to update the dependancies, but then I decided to add some features, namely to only keep the last 5 backups (easy to change) , and compress the backups to **save on storage space**. See below.
 
 
 ### Updated Versions
