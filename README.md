@@ -53,3 +53,9 @@ Modify the amount of backups your store by changing ([Line 77](https://github.co
 
 #### Error Handling:
 - Uses GitHub's warning annotation for disabled backups
+
+#### S3 support - Not tested 
+- Commented out by default
+- After compression sends backup to S3
+- Add your Amazon secret key variables to your GitHub action settings
+- You should create a dedicated IAM user for a specific bucket, and adjust the code accordingly

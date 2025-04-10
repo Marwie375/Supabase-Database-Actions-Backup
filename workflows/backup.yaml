@@ -80,6 +80,30 @@ jobs:
           tar -czf ${{ steps.timestamp.outputs.time }}.tar.gz ${{ steps.timestamp.outputs.time }}
           rm -rf ${{ steps.timestamp.outputs.time }}
 
+      #Send to S3 bucket - not tested
+      #------------------------------
+      # - name: Configure AWS credentials
+      #   if: env.BACKUP_ENABLED == 'true'
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}
+      
+      # - name: Upload backup to S3
+      #   if: env.BACKUP_ENABLED == 'true'
+      #   run: |
+      #     # Upload the latest backup to S3
+      #     cd prisma/backups
+      #     aws s3 cp ${{ steps.timestamp.outputs.time }}.tar.gz s3://${{ vars.S3_BUCKET_NAME }}/database-backups/${{ steps.timestamp.outputs.time }}.tar.gz
+          
+      #     # Optional: Add metadata
+      #     aws s3api put-object-tagging --bucket ${{ vars.S3_BUCKET_NAME }} \
+      #       --key database-backups/${{ steps.timestamp.outputs.time }}.tar.gz \
+      #       --tagging 'TagSet=[{Key=backup-type,Value=supabase},{Key=created-by,Value=github-actions}]'
+          
+      #     echo "Backup uploaded to S3: s3://${{ vars.S3_BUCKET_NAME }}/database-backups/${{ steps.timestamp.outputs.time }}.tar.gz"   
+
       - name: Cleanup old backups
         if: env.BACKUP_ENABLED == 'true'
         run: |
