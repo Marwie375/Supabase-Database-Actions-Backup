@@ -2,7 +2,7 @@
 
 Forked from: https://github.com/sesto-dev/supabase-database-backup
 
-Please see the original ^ repo for intructions and features
+Please see the original ^ repo for intructions and features  
 Video Guide: https://www.youtube.com/watch?v=TY68pfWps64
 
 ## Features
@@ -13,32 +13,35 @@ Video Guide: https://www.youtube.com/watch?v=TY68pfWps64
 - Easy Database Restoration: Clear steps to restore your database from backups.
 
 
-Updated Versions in tooling-
+### Updated Versions
 
 - [actions/checkout@v4.2.2](https://github.com/actions/checkout) 
 - [supabase/setup-cli@v2.21.1](https://github.com/supabase/setup-cli) 
 - [git-auto-commit-action@v5.1](https://github.com/stefanzweifel/git-auto-commit-action) 
 
-Modify the amount of backups buy chaning this:
-        tail -n +6 // using +6 keeps last 5 backups based on datetime list 
+Modify the amount of backups your store by changing ([see here](https://github.com/wycks/Supabase-Database-Actions-Backup/blob/316ce895dcb5c3e804f21b57b40421cd14f5a144/workflows/backup.yaml#L77))
 
-## Key Improvements:
+        // +6 keeps the last 5 backups based on datetime list 
+        tail -n +6 
+        
 
-### Better Timestamps:
-Added dedicated timestamp generation step
-Timestamps now include hours, minutes, and seconds
+## Improvements
 
-### Organization + Storage Efficiency:
-Creates dated folders for each backup
-Compresses backups into .tar.gz files
-Removes temporary files after compression
+#### Better Timestamps:
+- Added dedicated timestamp generation step
+- Timestamps now include hours, minutes, and seconds
 
-### Cleanup:
-Added automatic cleanup of old backups (keeps last 5)
+#### Organization + Storage Efficiency:
+- Creates dated folders for each backup
+- Compresses backups into .tar.gz files
+- Removes temporary files after compression
 
-### Better Git Handling:
-Added fetch-depth: 0 for better Git history
-Improved commit options for reliability
+#### Cleanup:
+- Added automatic cleanup of old backups (keeps last 5)
 
-###  Error Handling:
-Uses GitHub's warning annotation for disabled backups
+#### Better Git Handling:
+- Added fetch-depth: 0 for better Git history
+- Improved commit options for reliability
+
+#### Error Handling:
+- Uses GitHub's warning annotation for disabled backups
