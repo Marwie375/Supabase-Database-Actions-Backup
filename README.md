@@ -20,7 +20,7 @@ Video Guide: https://www.youtube.com/watch?v=TY68pfWps64
 ### Updated Versions
 
 - [actions/checkout@v4.2.2](https://github.com/actions/checkout) 
-- [supabase/setup-cli@v2.21.1](https://github.com/supabase/setup-cli) 
+- [supabase/setup-cli@v1.5](https://github.com/supabase/setup-cli) 
 - [git-auto-commit-action@v5.1](https://github.com/stefanzweifel/git-auto-commit-action) 
 
 Modify the amount of backups your store by changing ([Line 77](https://github.com/wycks/Supabase-Database-Actions-Backup/blob/316ce895dcb5c3e804f21b57b40421cd14f5a144/workflows/backup.yaml#L77))
