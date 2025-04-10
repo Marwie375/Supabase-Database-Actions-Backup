@@ -12,7 +12,7 @@ Video Guide: https://www.youtube.com/watch?v=TY68pfWps64
 - GitHub Action Integration: Leverages free and reliable GitHub Actions for automation.
 - Easy Database Restoration: Clear steps to restore your database from backups.
 
-I forked this to update the 3 dependancies below, but then decided to add some features, see improvments below. 
+*I forked this to update the 3 dependancies below, but then decided to add some features, namely to only keep the last 5 backups to **save on storage space**,  see improvements below.* 
 
 ### Updated Versions
 
@@ -20,7 +20,7 @@ I forked this to update the 3 dependancies below, but then decided to add some f
 - [supabase/setup-cli@v2.21.1](https://github.com/supabase/setup-cli) 
 - [git-auto-commit-action@v5.1](https://github.com/stefanzweifel/git-auto-commit-action) 
 
-Modify the amount of backups your store by changing ([see here](https://github.com/wycks/Supabase-Database-Actions-Backup/blob/316ce895dcb5c3e804f21b57b40421cd14f5a144/workflows/backup.yaml#L77))
+Modify the amount of backups your store by changing ([Line 77](https://github.com/wycks/Supabase-Database-Actions-Backup/blob/316ce895dcb5c3e804f21b57b40421cd14f5a144/workflows/backup.yaml#L77))
 
         // +6 keeps the last 5 backups based on datetime list 
         tail -n +6 
