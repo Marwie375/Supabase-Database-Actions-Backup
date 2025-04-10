@@ -12,6 +12,7 @@ Video Guide: https://www.youtube.com/watch?v=TY68pfWps64
 - GitHub Action Integration: Leverages free and reliable GitHub Actions for automation.
 - Easy Database Restoration: Clear steps to restore your database from backups.
 
+I forked this to update the 3 dependancies below, but then decided to add some features, see improvments below. 
 
 ### Updated Versions
 
