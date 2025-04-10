@@ -10,9 +10,12 @@ Video Guide: https://www.youtube.com/watch?v=TY68pfWps64
 - Role, Schema, and Data Separation: Creates modular backup files for roles, schema, and data.
 - Flexible Workflow Control: Enable or disable backups with a simple environment variable.
 - GitHub Action Integration: Leverages free and reliable GitHub Actions for automation.
-- Easy Database Restoration: Clear steps to restore your database from backups.
+- Easy Database Restoration: Clear steps to restore your database from backups. <br> <br> 
 
-*I forked this to update the 3 dependancies below, but then decided to add some features, namely to only keep the last 5 backups to **save on storage space**,  see improvements below.* 
+
+  
+> The main reason for the fork was to update the 3 dependancies below, but then I decided to add some features, namely to only keep the last 5 backups, and compress the backups to **save on storage space**. See improvements below.
+
 
 ### Updated Versions
 
