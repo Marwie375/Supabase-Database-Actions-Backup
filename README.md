@@ -5,6 +5,9 @@ Forked from: https://github.com/sesto-dev/supabase-database-backup
 Please see the original ^ repo for intructions and features  
 Video Guide: https://www.youtube.com/watch?v=TY68pfWps64
 
+## Connecting to Supabase
+GitHub actions  currently use IPv4, Supabase direct connections are IPv6. It's recommanded you pay the add-on fee for a direct Supabase connection for IPv4 support. Otherwise use the shared Transaction Spooler for IPv4 (not the Sessions pooler).
+
 ## Features
 - Automatic Daily Backups: Scheduled backups run every day at midnight.
 - Role, Schema, and Data Separation: Creates modular backup files for roles, schema, and data.
@@ -18,9 +21,10 @@ Video Guide: https://www.youtube.com/watch?v=TY68pfWps64
 
 
 ### Updated Versions
+Versions need to be verbose
 
 - [actions/checkout@v4.2.2](https://github.com/actions/checkout) 
-- [supabase/setup-cli@v1.5](https://github.com/supabase/setup-cli) 
+- [supabase/setup-cli@v1.5.0](https://github.com/supabase/setup-cli) 
 - [git-auto-commit-action@v5.1](https://github.com/stefanzweifel/git-auto-commit-action) 
 
 Modify the amount of backups your store by changing ([Line 77](https://github.com/wycks/Supabase-Database-Actions-Backup/blob/316ce895dcb5c3e804f21b57b40421cd14f5a144/workflows/backup.yaml#L77))

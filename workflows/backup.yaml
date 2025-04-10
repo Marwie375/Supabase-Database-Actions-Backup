@@ -27,6 +27,16 @@ jobs:
           if [ "$BACKUP_ENABLED" != "true" ]; then
             echo "::warning::Backups are disabled. Exiting workflow."
             exit 0
+          fi
+
+      - name: Verify environment variables
+        if: env.BACKUP_ENABLED == 'true'
+        run: |
+          if [[ ! "$SUPABASE_DB_URL" == postgresql://* ]]; then
+            echo "::error::Database URL has incorrect format"
+            exit 1
+          fi
+          echo "Database URL has correct format"
 
       - name: Checkout repository
         if: env.BACKUP_ENABLED == 'true'
@@ -40,7 +50,7 @@ jobs:
 
       - name: Setup Supabase CLI
         if: env.BACKUP_ENABLED == 'true'
-        uses: supabase/setup-cli@v1.5
+        uses: supabase/setup-cli@v1.5.0  # v1.5
         with:
           version: latest
 
@@ -74,11 +84,24 @@ jobs:
         if: env.BACKUP_ENABLED == 'true'
         run: |
           cd prisma/backups
-          ls -t *.tar.gz | tail -n +6 | xargs -r rm
+          if ls *.tar.gz 1> /dev/null 2>&1; then
+            ls -t *.tar.gz | tail -n +6 | xargs -r rm
+          else
+            echo "No backups to clean up"
+          fi
+
+      - name: Debug Git Status
+        if: env.BACKUP_ENABLED == 'true'
+        run: |
+          cd prisma/backups
+          ls -la  # List all files
+          git status  # Check git status
+          # Force Git to track the .tar.gz files
+          git add -f *.tar.gz || echo "No files to add"   
           
       - name: Commit backups
         if: env.BACKUP_ENABLED == 'true'
-        uses: stefanzweifel/git-auto-commit-action@v5.1
+        uses: stefanzweifel/git-auto-commit-action@v5.1.0
         with:
           commit_message: "Database Backup - ${{ steps.timestamp.outputs.time }}"
           file_pattern: 'prisma/backups/*.tar.gz'
@@ -86,3 +109,4 @@ jobs:
           push_options: '--force'
           status_options: '--untracked-files=no'
           add_options: '-f'
+          skip_checkout: true
